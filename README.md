@@ -18,5 +18,12 @@ If you do shallow clone, only care about linux, and use system libraries as appr
 can cut the 7.1GB disk usage down to about 270MB. And the network usage from
 600MB + ~2.5GB + 400MB ~ 3.5GB to about 80MB download.
 
-Here is the script.
+Here is the script. You run it like this, with the milestone as argument (only m116 is supported at
+the moment!):
 
+```
+./download-and-build-skia.sh m116
+```
+
+It takes about 40 minutes and 300MG disk space. Generates three files,
+`skia-m116-build-log-shared`, `skia-m116-bin-file-list`, `skia-m116-bin.zip`.
