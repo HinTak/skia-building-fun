@@ -12,10 +12,10 @@ git clone -b chrome/${VER} --depth 1 git@github.com:google/skia.git skia-${VER}
 pushd skia-${VER}/
 
     # Stop uninteresting downloads, and disable emsdk
-    patch < ../patches/skia-${VER}-minimize-download.diff
+    patch -p1 < ../patches/skia-${VER}-minimize-download.diff
 
     # https://bugs.chromium.org/p/skia/issues/detail?id=14636
-    patch < ../patches/skia-${VER}-modules-symbols-svg.diff
+    patch -p1 < ../patches/skia-${VER}-modules-symbols-svg.diff
 
     # Official build process from here:
     python tools/git-sync-deps
