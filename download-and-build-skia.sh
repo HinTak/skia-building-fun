@@ -20,6 +20,7 @@ pushd skia-${VER}/
     # Official build process from here:
     python tools/git-sync-deps
 
+    # is_official_build=true:     - Non-debug and use as many system libraries as appropriate.
     # is_component_build=true:    build shared libraries
     # skia_enable_svg=true:       want the svg module
     # - full-path clang/clang++   to avoid ccache
