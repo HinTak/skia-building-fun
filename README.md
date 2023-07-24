@@ -27,5 +27,5 @@ the moment!):
 ./download-and-build-skia.sh m116
 ```
 
-It takes about 40 minutes and 300MG disk space. Generates three files,
+It takes about 40 minutes on dual-cores and 300MG disk space in total. Generates three files,
 `skia-m116-build-log-shared`, `skia-m116-bin-file-list`, `skia-m116-bin.zip`.
