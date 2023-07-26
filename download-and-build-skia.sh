@@ -17,6 +17,7 @@ pushd skia-${VER}/
     patch -p1 < ../patches/skia-${VER}-minimize-download.diff
 
     # https://bugs.chromium.org/p/skia/issues/detail?id=14636
+    # https://issues.skia.org/issues/40045538
     patch -p1 < ../patches/skia-${VER}-modules-symbols-svg.diff
 
     # This is a non-standard patch which adds one new
