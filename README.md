@@ -29,3 +29,7 @@ the moment!):
 
 It takes about 40 minutes on dual-cores and 300MG disk space in total. Generates three files,
 `skia-m116-build-log-shared`, `skia-m116-bin-file-list`, `skia-m116-bin.zip`.
+
+This bundle is used in building the Skia-enabled FreeType2-demos
+( https://github.com/HinTak/harfbuzz-python-demos/tree/master/skia-adventure/ ), which
+reads OT-SVG fonts in 4 different ways, as well as the new COLRv1 font format.
