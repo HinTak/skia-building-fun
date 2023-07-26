@@ -19,6 +19,12 @@ pushd skia-${VER}/
     # https://bugs.chromium.org/p/skia/issues/detail?id=14636
     patch -p1 < ../patches/skia-${VER}-modules-symbols-svg.diff
 
+    # This is a non-standard patch which adds one new
+    # method, and make another protected method public.
+    # It could have been be a bit shorter, except enum
+    # typedef's cannot be forward-declared.
+    patch -p1 < ../patches/skia-${VER}-colrv1-freetype.diff
+
     # Official build process from here:
     python tools/git-sync-deps
 
