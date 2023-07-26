@@ -7,7 +7,7 @@ index d91772e03b..9b870635cf 100644
  }
  
 -int SkStrSearch(const char*const* base, int count, const char target[],
-+SK_API int SkStrSearch(const char*const* base, int count, const char target[],
++SK_SPI int SkStrSearch(const char*const* base, int count, const char target[],
                  size_t elemSize)
  {
      return SkStrSearch(base, count, target, strlen(target), elemSize);
@@ -20,7 +20,7 @@ index 6a4c1531cf..85005527c5 100644
   *    }
   */
 -class SkTextBlobRunIterator {
-+class SK_API SkTextBlobRunIterator {
++class SK_SPI SkTextBlobRunIterator {
  public:
      SkTextBlobRunIterator(const SkTextBlob* blob);
  
@@ -40,7 +40,7 @@ index 78c7072bd0..3916fed46b 100644
  #include <stdio.h>
  
 -void SkDebugf(const char format[], ...) {
-+SK_API void SkDebugf(const char format[], ...) {
++SK_SPI void SkDebugf(const char format[], ...) {
      va_list args;
      va_start(args, format);
  #pragma GCC diagnostic push
@@ -53,7 +53,7 @@ index 783e985fd6..b95cf7cb95 100644
   *  Functions for modifying SkStrings which represent paths on the filesystem.
   */
 -class SkOSPath {
-+class SK_API SkOSPath {
++class SK_SPI SkOSPath {
  public:
  #ifdef _WIN32
      static constexpr char SEPARATOR = '\\';
@@ -66,7 +66,7 @@ index bceb8234e9..70b60ddb77 100644
  class SkXMLParser;
  
 -class SkDOM : public SkNoncopyable {
-+class SK_API SkDOM : public SkNoncopyable {
++class SK_SPI SkDOM : public SkNoncopyable {
  public:
      SkDOM();
      ~SkDOM();
