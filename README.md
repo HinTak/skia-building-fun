@@ -18,7 +18,7 @@ you even start to build a single line.
 
 If you do shallow clone, only care about linux, and use system libraries as appropriate, you
 can cut the 7.1GB disk usage down to about 270MB. And the network usage from
-600MB + ~2.5GB + 400MB ~ 3.5GB to about 80MB download.
+600MB + ~3.0GB + 400MB ~ 4.0GB to about 80MB download.
 
 Here is the script. You run it like this, with the milestone as argument (only m116 is supported at
 the moment!):
