@@ -11,9 +11,9 @@ only.
 
 Skia is facinating in both a bad and good way. The official build procedure does a 900MB clone,
 then fetch 1.6GB swiftshader (Mac OS X only), 1GB icu (available on Linux), 400MB angle2
-(used only for windows builds); that's 5.1GB of thirdparty stuff in total. Then it goes and
+(used only for windows builds); that's 5.3GB of thirdparty stuff in total. Then it goes and
 fetch another 400 MB via `emsdk activate` and dump 1.1GB on the hard disk. That's only useful for
-building skia for WebAassembly. So it eats up 900MB + 5.1GB + 1.1GB ~ 7.1GB before
+building skia for WebAassembly. So it eats up 900MB + 5.3GB + 1.1GB ~ 7.3GB before
 you even start to build a single line.
 
 If you do shallow clone, only care about linux, and use system libraries as appropriate, you
