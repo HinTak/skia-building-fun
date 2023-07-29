@@ -49,5 +49,6 @@ pushd skia-${VER}/
 
     # Keep the final combined diff as a record.
     git diff > ../skia-${VER}-final-total.diff
+    git describe --always >> ../skia-${VER}-final-total.diff
 popd
 rm -rf skia-${VER}/
