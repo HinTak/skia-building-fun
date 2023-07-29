@@ -36,7 +36,7 @@ pushd skia-${VER}/
     bin/gn gen out/Shared --args='is_official_build=true is_component_build=true skia_enable_svg=true cc="/usr/bin/clang" cxx="/usr/bin/clang++"'
 
     # time the build, keep the log
-    /usr/bin/time -v ninja -C out/Shared/ 2>&1 | tee ../skia-${VER}-build-log-shared
+    /usr/bin/time -v ninja -C out/Shared/ 2>&1 | tee -a ../skia-${VER}-build-log-shared
 
     # zip up the interesting part of outcome.
     find out/Shared/ -type f -name '*.a' -or -name '*.so' >  ../skia-${VER}-bin-file-list
