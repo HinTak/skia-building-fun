@@ -47,5 +47,7 @@ pushd skia-${VER}/
 
     cat ../skia-${VER}-bin-file-list | zip -@ ../skia-${VER}-bin.zip
 
+    # Keep the final combined diff as a record.
+    git diff > ../skia-${VER}-final-total.diff
 popd
 rm -rf skia-${VER}/
