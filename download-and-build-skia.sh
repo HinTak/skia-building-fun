@@ -42,7 +42,7 @@ pushd skia-${VER}/
     /usr/bin/time -v ninja -C out/Shared/ 2>&1 | tee -a ../skia-${VER}-build-log-shared
 
     # zip up the interesting part of outcome.
-    find out/Shared/ -type f -name '*.a' -or -name '*.so' >  ../skia-${VER}-bin-file-list
+    find out/Shared/ -type f -name '*.a' -or -name '*.so' -or -executable >  ../skia-${VER}-bin-file-list
     find include/ src/ modules/ -type f -name '*.h'       >> ../skia-${VER}-bin-file-list
 
     cat ../skia-${VER}-bin-file-list | zip -@ ../skia-${VER}-bin.zip
