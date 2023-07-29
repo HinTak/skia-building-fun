@@ -1,0 +1,65 @@
+diff --git a/src/core/SkTSearch.cpp b/src/core/SkTSearch.cpp
+index dbcd83a..a6d0406 100644
+--- a/src/core/SkTSearch.cpp
++++ b/src/core/SkTSearch.cpp
+@@ -54,7 +54,7 @@ int SkStrSearch(const char*const* base, int count, const char target[],
+     return hi;
+ }
+ 
+-int SkStrSearch(const char*const* base, int count, const char target[],
++SK_SPI int SkStrSearch(const char*const* base, int count, const char target[],
+                 size_t elemSize)
+ {
+     return SkStrSearch(base, count, target, strlen(target), elemSize);
+diff --git a/src/core/SkTextBlobPriv.h b/src/core/SkTextBlobPriv.h
+index 8cee89b..a2c4346 100644
+--- a/src/core/SkTextBlobPriv.h
++++ b/src/core/SkTextBlobPriv.h
+@@ -182,7 +182,7 @@ private:
+  *         .....
+  *    }
+  */
+-class SkTextBlobRunIterator {
++class SK_SPI SkTextBlobRunIterator {
+ public:
+     SkTextBlobRunIterator(const SkTextBlob* blob);
+ 
+diff --git a/src/ports/SkDebug_stdio.cpp b/src/ports/SkDebug_stdio.cpp
+index 1bba63c..73f2e40 100644
+--- a/src/ports/SkDebug_stdio.cpp
++++ b/src/ports/SkDebug_stdio.cpp
+@@ -11,7 +11,7 @@
+ #include <stdarg.h>
+ #include <stdio.h>
+ 
+-void SkDebugf(const char format[], ...) {
++SK_SPI void SkDebugf(const char format[], ...) {
+     va_list args;
+     va_start(args, format);
+     vfprintf(stderr, format, args);
+diff --git a/src/utils/SkOSPath.h b/src/utils/SkOSPath.h
+index e0f9ef3..ecca9ec 100644
+--- a/src/utils/SkOSPath.h
++++ b/src/utils/SkOSPath.h
+@@ -13,7 +13,7 @@
+ /**
+  *  Functions for modifying SkStrings which represent paths on the filesystem.
+  */
+-class SkOSPath {
++class SK_SPI SkOSPath {
+ public:
+ #ifdef _WIN32
+     const static char SEPARATOR = '\\';
+diff --git a/src/xml/SkDOM.h b/src/xml/SkDOM.h
+index 0ed52b5..85b0570 100644
+--- a/src/xml/SkDOM.h
++++ b/src/xml/SkDOM.h
+@@ -21,7 +21,7 @@ class SkDOMParser;
+ class SkStream;
+ class SkXMLParser;
+ 
+-class SkDOM : public SkNoncopyable {
++class SK_SPI SkDOM : public SkNoncopyable {
+ public:
+     SkDOM();
+     ~SkDOM();
