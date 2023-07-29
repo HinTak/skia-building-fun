@@ -26,6 +26,9 @@ pushd skia-${VER}/
     # typedef's cannot be forward-declared.
     patch -p1 < ../patches/skia-${VER}-colrv1-freetype.diff
 
+    # Older versions of skia need small code fixes.
+    [ -f ../patches/skia-${VER}-c++-code.diff ] && patch -p1 < ../patches/skia-${VER}-c++-code.diff
+
     # Official build process from here:
     python tools/git-sync-deps
 
