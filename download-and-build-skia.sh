@@ -34,7 +34,7 @@ pushd skia-${VER}/
 
     # is_official_build=true:     - Non-debug and use as many system libraries as appropriate.
     # is_component_build=true:    build shared libraries
-    # skia_enable_svg=true:       want the svg module
+    # skia_enable_svg=true:       want the svg module - first available in m91
     # - full-path clang/clang++   to avoid ccache
     bin/gn gen out/Shared --args='is_official_build=true is_component_build=true skia_enable_svg=true cc="/usr/bin/clang" cxx="/usr/bin/clang++"'
 
