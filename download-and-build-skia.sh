@@ -38,14 +38,25 @@ pushd skia-${VER}/
     # - full-path clang/clang++   to avoid ccache
     bin/gn gen out/Shared --args='is_official_build=true is_component_build=true skia_enable_svg=true cc="/usr/bin/clang" cxx="/usr/bin/clang++"'
 
+    # Static build presumably will be used for skia-python, which needs -frtti
+    bin/gn gen out/Release --args='is_official_build=true skia_enable_svg=true cc="/usr/bin/clang" cxx="/usr/bin/clang++" extra_cflags_cc=["-frtti"]'
+
     # time the build, keep the log
     /usr/bin/time -v ninja -C out/Shared/ 2>&1 | tee -a ../skia-${VER}-build-log-shared
+    /usr/bin/time -v ninja -C out/Release/ 2>&1 | tee -a ../skia-${VER}-build-log-release
 
     # zip up the interesting part of outcome.
     find out/Shared/ -type f -name '*.a' -or -name '*.so' -or -type f -executable >  ../skia-${VER}-bin-file-list
     find include/ src/ modules/ -type f -name '*.h'       >> ../skia-${VER}-bin-file-list
 
     cat ../skia-${VER}-bin-file-list | zip -@ ../skia-${VER}-bin.zip
+
+    # skia-python needs the resources/ for testing.
+    find out/Release/ -type f -name '*.a' -or -name '*.so' -or -type f -executable >  ../skia-${VER}-bin-file-list-static
+    find include/ src/ modules/ -type f -name '*.h'       >> ../skia-${VER}-bin-file-list-static
+    find resources/ -type f >> ../skia-${VER}-bin-file-list-static
+
+    cat ../skia-${VER}-bin-file-list-static | zip -@ ../skia-${VER}-static-bin.zip
 
     # Keep the final combined diff as a record.
     git diff > ../skia-${VER}-final-total.diff
