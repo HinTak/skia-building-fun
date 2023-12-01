@@ -38,10 +38,10 @@ pushd skia-${VER}/
     # is_component_build=true:    build shared libraries
     # skia_enable_svg=true:       want the svg module - first available in m91
     # - full-path clang/clang++   to avoid ccache
-    bin/gn gen out/Shared --args='is_official_build=true is_component_build=true skia_enable_svg=true cc="/usr/bin/clang" cxx="/usr/bin/clang++"'
+    bin/gn gen out/Shared --args='is_official_build=true is_component_build=true skia_enable_svg=true skia_use_vulkan=true cc="/usr/bin/clang" cxx="/usr/bin/clang++"'
 
     # Static build presumably will be used for skia-python, which needs -frtti
-    bin/gn gen out/Release --args='is_official_build=true skia_enable_svg=true cc="/usr/bin/clang" cxx="/usr/bin/clang++" extra_cflags_cc=["-frtti"]'
+    bin/gn gen out/Release --args='is_official_build=true skia_enable_svg=true skia_use_vulkan=true cc="/usr/bin/clang" cxx="/usr/bin/clang++" extra_cflags_cc=["-frtti"]'
 
     # time the build, keep the log
     /usr/bin/time -v ninja -C out/Shared/ 2>&1 | tee -a ../skia-${VER}-build-log-shared
