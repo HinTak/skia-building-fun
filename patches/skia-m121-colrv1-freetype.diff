@@ -1,8 +1,47 @@
+diff --git a/modules/canvaskit/canvaskit_bindings.cpp b/modules/canvaskit/canvaskit_bindings.cpp
+index 073f853..17b70e3 100644
+--- a/modules/canvaskit/canvaskit_bindings.cpp
++++ b/modules/canvaskit/canvaskit_bindings.cpp
+@@ -110,6 +110,8 @@
+ #include "include/core/SkFontMetrics.h"
+ #include "include/core/SkFontMgr.h"
+ #include "include/core/SkFontTypes.h"
++enum class FT_Color_Root_Transform_;
++typedef FT_Color_Root_Transform_ FT_Color_Root_Transform; /* freetype/ftcolor.h */
+ #include "src/ports/SkFontHost_FreeType_common.h"
+ #ifdef CK_INCLUDE_PARAGRAPH
+ #include "modules/skparagraph/include/Paragraph.h"
+diff --git a/modules/canvaskit/skottie_bindings.cpp b/modules/canvaskit/skottie_bindings.cpp
+index d345fe8..dc8bde8 100644
+--- a/modules/canvaskit/skottie_bindings.cpp
++++ b/modules/canvaskit/skottie_bindings.cpp
+@@ -19,6 +19,8 @@
+ #include "modules/sksg/include/SkSGInvalidationController.h"
+ #include "modules/skunicode/include/SkUnicode.h"
+ #include "src/base/SkUTF.h"
++enum class FT_Color_Root_Transform_;
++typedef FT_Color_Root_Transform_ FT_Color_Root_Transform; /* freetype/ftcolor.h */
+ #include "src/ports/SkFontHost_FreeType_common.h"
+ #include "tools/skui/InputState.h"
+ #include "tools/skui/ModifierKey.h"
+diff --git a/modules/skparagraph/utils/TestFontCollection.cpp b/modules/skparagraph/utils/TestFontCollection.cpp
+index 9e5374f..b796d7d 100644
+--- a/modules/skparagraph/utils/TestFontCollection.cpp
++++ b/modules/skparagraph/utils/TestFontCollection.cpp
+@@ -8,6 +8,8 @@
+ #include "tools/Resources.h"
+ 
+ #if defined(SK_TYPEFACE_FACTORY_FREETYPE)
++enum class FT_Color_Root_Transform_;
++typedef FT_Color_Root_Transform_ FT_Color_Root_Transform; /* freetype/ftcolor.h */
+ #include "src/ports/SkFontHost_FreeType_common.h"
+ #elif defined(SK_TYPEFACE_FACTORY_CORETEXT)
+ #include "src/ports/SkTypeface_mac_ct.h"
 diff --git a/src/core/SkTypeface.cpp b/src/core/SkTypeface.cpp
-index eae8c84..8388891 100644
+index f2d0927..bf2666c 100644
 --- a/src/core/SkTypeface.cpp
 +++ b/src/core/SkTypeface.cpp
-@@ -24,6 +24,8 @@
+@@ -31,6 +31,8 @@
  #include "src/sfnt/SkOTTable_OS_2.h"
  
  #ifdef SK_TYPEFACE_FACTORY_FREETYPE
@@ -25,7 +64,7 @@ index 7955049..8551cf7 100644
  
  class SkFontDescriptor;
 diff --git a/src/ports/SkFontHost_FreeType.cpp b/src/ports/SkFontHost_FreeType.cpp
-index f46bf19..def997a 100644
+index 1122283..9b196ca 100644
 --- a/src/ports/SkFontHost_FreeType.cpp
 +++ b/src/ports/SkFontHost_FreeType.cpp
 @@ -31,7 +31,6 @@
@@ -45,7 +84,7 @@ index f46bf19..def997a 100644
  #include <freetype/ftlcdfil.h>
  #include <freetype/ftmodapi.h>
 diff --git a/src/ports/SkFontHost_FreeType_common.cpp b/src/ports/SkFontHost_FreeType_common.cpp
-index 355ee02..22cd6af 100644
+index 1505cd0..7873a9e 100644
 --- a/src/ports/SkFontHost_FreeType_common.cpp
 +++ b/src/ports/SkFontHost_FreeType_common.cpp
 @@ -6,7 +6,6 @@
@@ -64,7 +103,7 @@ index 355ee02..22cd6af 100644
  #include <freetype/ftimage.h>
  #include <freetype/ftoutln.h>
  #include <freetype/ftsizes.h>
-@@ -1558,6 +1558,41 @@ bool SkScalerContext_FreeType_Base::drawCOLRv1Glyph(FT_Face face,
+@@ -1577,6 +1577,41 @@ bool SkScalerContext_FreeType_Base::drawCOLRv1Glyph(FT_Face face,
      SkASSERTF(haveLayers, "Could not get COLRv1 layers from '%s'.", face->family_name);
      return haveLayers;
  }
@@ -107,7 +146,7 @@ index 355ee02..22cd6af 100644
  
  #ifdef FT_COLOR_H
 diff --git a/src/ports/SkFontHost_FreeType_common.h b/src/ports/SkFontHost_FreeType_common.h
-index 1d3a8f8..820106a 100644
+index 6cba604..92e56af 100644
 --- a/src/ports/SkFontHost_FreeType_common.h
 +++ b/src/ports/SkFontHost_FreeType_common.h
 @@ -29,6 +29,7 @@ typedef struct FT_FaceRec_* FT_Face;
@@ -144,7 +183,7 @@ index 1d3a8f8..820106a 100644
      struct ScalerContextBits {
          static const constexpr uint32_t COLRv0 = 1;
 diff --git a/src/ports/SkFontMgr_android.cpp b/src/ports/SkFontMgr_android.cpp
-index 25cc9f9..d9af46b 100644
+index 8a93a2e..d3743ba 100644
 --- a/src/ports/SkFontMgr_android.cpp
 +++ b/src/ports/SkFontMgr_android.cpp
 @@ -23,6 +23,8 @@
@@ -157,7 +196,7 @@ index 25cc9f9..d9af46b 100644
  #include "src/ports/SkFontMgr_android_parser.h"
  
 diff --git a/src/ports/SkFontMgr_custom.cpp b/src/ports/SkFontMgr_custom.cpp
-index cfa39ef..9d61da9 100644
+index a0c6693..536f1c2 100644
 --- a/src/ports/SkFontMgr_custom.cpp
 +++ b/src/ports/SkFontMgr_custom.cpp
 @@ -16,6 +16,8 @@
@@ -170,7 +209,7 @@ index cfa39ef..9d61da9 100644
  #include "src/ports/SkFontMgr_custom.h"
  
 diff --git a/src/ports/SkFontMgr_custom.h b/src/ports/SkFontMgr_custom.h
-index 1e78f0b..8a22c02 100644
+index 0de4d1d..b9298dd 100644
 --- a/src/ports/SkFontMgr_custom.h
 +++ b/src/ports/SkFontMgr_custom.h
 @@ -14,6 +14,8 @@
@@ -183,12 +222,12 @@ index 1e78f0b..8a22c02 100644
  
  class SkData;
 diff --git a/src/ports/SkFontMgr_fontconfig.cpp b/src/ports/SkFontMgr_fontconfig.cpp
-index 8022ac2..bee83e8 100644
+index 12b1e95..6d386d9 100644
 --- a/src/ports/SkFontMgr_fontconfig.cpp
 +++ b/src/ports/SkFontMgr_fontconfig.cpp
-@@ -22,6 +22,8 @@
- #include "src/core/SkFontDescriptor.h"
+@@ -28,6 +28,8 @@
  #include "src/core/SkOSFile.h"
+ #include "src/core/SkScalerContext.h"
  #include "src/core/SkTypefaceCache.h"
 +enum class FT_Color_Root_Transform_;
 +typedef FT_Color_Root_Transform_ FT_Color_Root_Transform; /* freetype/ftcolor.h */
