@@ -6,7 +6,7 @@
 
 ARG1=${1}
 
-VER=${ARG1:-m120}
+VER=${ARG1:-m121}
 
 # Shallow clones to avoid a 600MB+ download.
 git clone -b chrome/${VER} --depth 1 git@github.com:google/skia.git skia-${VER}
