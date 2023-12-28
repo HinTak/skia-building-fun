@@ -6,6 +6,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: fedora:39
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
