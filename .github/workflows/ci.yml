@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - run: dnf install -y expat-devel fontconfig-devel freetype-devel harfbuzz-devel brotli-devel
-      - run: dnf install -y libicu-devel libjpeg-turbo-devel libwebp-devel libxml2-evel vulkan-headers
+      - run: dnf install -y libicu-devel libjpeg-turbo-devel libwebp-devel libxml2-devel vulkan-headers
       - run: dnf install -y clang++
       - run: ./download-and-build-skia.sh
       - name: Release
