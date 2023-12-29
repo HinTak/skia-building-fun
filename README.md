@@ -6,8 +6,8 @@ The official procedure for building Skia tries to download ~3.5 GB and spats 7.1
 hard disk before even compiling the first source file. This is a script plus a patch set to
 do it with ~80MB download and ~300MB disk space usage, without compromising on any functionality.
 
-It takes about 40 minutes on dual-cores, or about 70 minutes on single CPU. Works for m116 and Linux
-only.
+It takes about 40 minutes on dual-cores, or about 70 minutes on single CPU. Works on Linux
+only. Takes about 20 minutes to build both static and shared m121 on CI (see releases).
 
 Skia is facinating in both a bad and good way. The official build procedure does a 900MB clone,
 then fetch 1.6GB swiftshader (Mac OS X only), 1GB icu (available on Linux), 400MB angle2
