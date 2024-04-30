@@ -29,6 +29,9 @@ pushd skia-${VER}/
     # Older versions of skia need small code fixes.
     [ -f ../patches/skia-${VER}-c++-code.diff ] && patch -p1 < ../patches/skia-${VER}-c++-code.diff
 
+    # m125 icu breakage
+    [ -f ../patches/skia-${VER}-skunicode-breakage.diff ] && patch -p1 < ../patches/skia-${VER}-skunicode-breakage.diff
+
     #patch -p1 < ../patches/0001-Hook-up-SkSVGOpenTypeSVGDecoder-Make-to-enable-OT-SV.patch
 
     # Official build process from here:

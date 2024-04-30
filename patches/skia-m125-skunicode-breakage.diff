@@ -1,0 +1,37 @@
+diff --git a/modules/skunicode/BUILD.gn b/modules/skunicode/BUILD.gn
+index dfbdfb4..7bc1c18 100644
+--- a/modules/skunicode/BUILD.gn
++++ b/modules/skunicode/BUILD.gn
+@@ -71,8 +71,6 @@ if (skia_use_icu || skia_use_client_icu || skia_use_libgrapheme ||
+       # These are explicitly *not* public defines because we don't want them
+       # to leak to dependents.
+       defines = [
+-        "U_DISABLE_RENAMING=1",
+-        "U_USING_ICU_NAMESPACE=0",
+       ]
+ 
+       sources = skia_unicode_icu_bidi_sources
+@@ -110,11 +108,6 @@ if (skia_use_icu || skia_use_client_icu || skia_use_libgrapheme ||
+         # is compiled alongside a full ICU build also.
+         # See https://chromium.googlesource.com/chromium/deps/icu.git/+/d94ab131bc8fef3bc17f356a628d8e4cd44d65d9/source/common/unicode/uversion.h
+         # for how these are used.
+-        "U_DISABLE_RENAMING=0",
+-        "U_USING_ICU_NAMESPACE=0",
+-        "U_LIB_SUFFIX_C_NAME=_skia",
+-        "U_HAVE_LIB_SUFFIX=1",
+-        "U_DISABLE_VERSION_SUFFIX=1",
+       ]
+ 
+       sources = skia_unicode_icu_bidi_sources
+@@ -137,11 +130,6 @@ if (skia_use_icu || skia_use_client_icu || skia_use_libgrapheme ||
+         "../../third_party/icu/config:no_cxx",
+       ]
+       defines = [
+-        "U_DISABLE_RENAMING=0",
+-        "U_USING_ICU_NAMESPACE=0",
+-        "U_LIB_SUFFIX_C_NAME=_skia",
+-        "U_HAVE_LIB_SUFFIX=1",
+-        "U_DISABLE_VERSION_SUFFIX=1",
+       ]
+ 
+       sources = skia_unicode_icu_bidi_sources
