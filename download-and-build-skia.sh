@@ -30,6 +30,7 @@ pushd skia-${VER}/
     [ -f ../patches/skia-${VER}-c++-code.diff ] && patch -p1 < ../patches/skia-${VER}-c++-code.diff
 
     # m125 icu breakage
+    # https://issues.skia.org/338570715 skunicode module's recent 'Reland "Fix defines for icu_subset"' commit in m125 broke skia_use_system_icu=true usage
     [ -f ../patches/skia-${VER}-skunicode-breakage.diff ] && patch -p1 < ../patches/skia-${VER}-skunicode-breakage.diff
 
     #patch -p1 < ../patches/0001-Hook-up-SkSVGOpenTypeSVGDecoder-Make-to-enable-OT-SV.patch
