@@ -2,9 +2,11 @@ diff --git a/src/base/SkBase64.h b/src/base/SkBase64.h
 index e48d861..e5f5f6f 100644
 --- a/src/base/SkBase64.h
 +++ b/src/base/SkBase64.h
-@@ -10,7 +10,7 @@
+@@ -9,8 +9,9 @@
+ #define SkBase64_DEFINED
  
  #include <cstddef>
++#include "include/private/base/SkAPI.h"
  
 -struct SkBase64 {
 +struct SK_API SkBase64 {
