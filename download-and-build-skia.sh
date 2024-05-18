@@ -71,4 +71,6 @@ pushd skia-${VER}/
     # Show exit status, as "| tee ..." doesn't.
     grep 'Exit status' ../*-log-*
 popd
-rm -rf skia-${VER}/
+
+# Test for result for failures, since popd does not.
+[ -f skia-${VER}/out/Release/libskia.a ] && rm -rf skia-${VER}/
