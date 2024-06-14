@@ -68,6 +68,10 @@ pushd skia-${VER}/
     git diff > ../skia-${VER}-final-total.diff
     git describe --always >> ../skia-${VER}-final-total.diff
 
+    # Want to know what 3rd-party stuff is needed:
+    cat ../skia-${VER}-build-log-shared  | grep third_part | grep compile | cut -f 3 -d ' ' | cut -f 1-5 -d / | sort | uniq -c
+    cat ../skia-${VER}-build-log-release | grep third_part | grep compile | cut -f 3 -d ' ' | cut -f 1-5 -d / | sort | uniq -c
+
     # Show exit status, as "| tee ..." doesn't.
     grep 'Exit status' ../*-log-*
 popd
