@@ -19,6 +19,7 @@ pushd skia-${VER}/
     # https://bugs.chromium.org/p/skia/issues/detail?id=14636
     # https://issues.skia.org/issues/40045538
     patch -p1 < ../patches/skia-${VER}-modules-symbols-svg.diff
+    patch -p1 < ../patches/skia-${VER}-modules-symbols-skparagraph.diff
 
     # This is a non-standard patch which adds one new
     # method, and make another protected method public.

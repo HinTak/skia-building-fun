@@ -1,0 +1,52 @@
+diff --git a/modules/skparagraph/include/FontCollection.h b/modules/skparagraph/include/FontCollection.h
+index ae2f992..dbb1ff0 100644
+--- a/modules/skparagraph/include/FontCollection.h
++++ b/modules/skparagraph/include/FontCollection.h
+@@ -18,7 +18,7 @@ namespace textlayout {
+ 
+ class TextStyle;
+ class Paragraph;
+-class FontCollection : public SkRefCnt {
++class SK_SPI FontCollection : public SkRefCnt {
+ public:
+     FontCollection();
+ 
+diff --git a/modules/skparagraph/include/ParagraphBuilder.h b/modules/skparagraph/include/ParagraphBuilder.h
+index feac562..739c4de 100644
+--- a/modules/skparagraph/include/ParagraphBuilder.h
++++ b/modules/skparagraph/include/ParagraphBuilder.h
+@@ -16,7 +16,7 @@
+ namespace skia {
+ namespace textlayout {
+ 
+-class ParagraphBuilder {
++class SP_SPI ParagraphBuilder {
+ protected:
+     ParagraphBuilder() {}
+ 
+diff --git a/modules/skparagraph/include/ParagraphStyle.h b/modules/skparagraph/include/ParagraphStyle.h
+index 98ec228..77e0915 100644
+--- a/modules/skparagraph/include/ParagraphStyle.h
++++ b/modules/skparagraph/include/ParagraphStyle.h
+@@ -75,7 +75,7 @@ private:
+     bool fHalfLeading;
+ };
+ 
+-struct ParagraphStyle {
++struct SK_SPI ParagraphStyle {
+     ParagraphStyle();
+ 
+     bool operator==(const ParagraphStyle& rhs) const {
+diff --git a/modules/skparagraph/include/TextStyle.h b/modules/skparagraph/include/TextStyle.h
+index 4bc2fb9..d46b5df 100644
+--- a/modules/skparagraph/include/TextStyle.h
++++ b/modules/skparagraph/include/TextStyle.h
+@@ -148,7 +148,7 @@ struct PlaceholderStyle {
+     SkScalar fBaselineOffset = 0;
+ };
+ 
+-class TextStyle {
++class SK_SPI TextStyle {
+ public:
+     TextStyle() = default;
+     TextStyle(const TextStyle& other) = default;
