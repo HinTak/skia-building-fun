@@ -20,7 +20,7 @@ index feac562..739c4de 100644
  namespace textlayout {
  
 -class ParagraphBuilder {
-+class SP_SPI ParagraphBuilder {
++class SK_SPI ParagraphBuilder {
  protected:
      ParagraphBuilder() {}
  
