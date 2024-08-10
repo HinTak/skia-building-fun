@@ -19,6 +19,8 @@ pushd skia-${VER}/
     # https://bugs.chromium.org/p/skia/issues/detail?id=14636
     # https://issues.skia.org/issues/40045538
     patch -p1 < ../patches/skia-${VER}-modules-symbols-svg.diff
+    # https://issues.skia.org/358587937 skparagraph has no public symbols in component build
+    # https://issues.skia.org/307357528 Skparagraph component build (DLL/.so/as a dynamic library) broken on windows
     patch -p1 < ../patches/skia-${VER}-modules-symbols-skparagraph.diff
     patch -p1 < ../patches/skia-${VER}-symbols-for-skresources.diff
 
