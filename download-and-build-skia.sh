@@ -22,6 +22,7 @@ pushd skia-${VER}/
     # https://issues.skia.org/358587937 skparagraph has no public symbols in component build
     # https://issues.skia.org/307357528 Skparagraph component build (DLL/.so/as a dynamic library) broken on windows
     patch -p1 < ../patches/skia-${VER}-modules-symbols-skparagraph.diff
+    # https://issues.skia.org/358587938 sk_isdir is not public in skia's component build; required by skresources across component boundary
     patch -p1 < ../patches/skia-${VER}-symbols-for-skresources.diff
 
     # This is a non-standard patch which adds one new
