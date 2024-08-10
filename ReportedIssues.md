@@ -1,0 +1,6 @@
+https://issues.skia.org/358587938 sk_isdir is not public in skia's component build; required by skresources across component boundary
+https://issues.skia.org/358587937 skparagraph has no public symbols in component build
+https://issues.skia.org/338570715 skunicode module's recent 'Reland "Fix defines for icu_subset"' commit in m125 broke skia_use_system_icu=true usage
+https://issues.skia.org/310510989 SkTypeface::MakeFromFile(path, index) does not work for index > 0 on mac; works on linux and windows
+https://issues.skia.org/310510988 libSkShaper can't shape emoji modifiers on windows - works on linux and mac
+https://issues.skia.org/40045538 m116 coponent+svg build, svg modules uses non-public symbols
