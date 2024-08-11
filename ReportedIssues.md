@@ -1,3 +1,4 @@
+https://issues.skia.org/358798723 inconsistency referring to png and jpeg in example/external_client/src/shape_text.cpp
 https://issues.skia.org/358587938 sk_isdir is not public in skia's component build; required by skresources across component boundary
 https://issues.skia.org/358587937 skparagraph has no public symbols in component build
 https://issues.skia.org/338570715 skunicode module's recent 'Reland "Fix defines for icu_subset"' commit in m125 broke skia_use_system_icu=true usage
