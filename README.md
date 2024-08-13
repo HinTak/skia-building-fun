@@ -1,5 +1,7 @@
 # How to build Skia m116+ with ~80MB download and ~300MB disk space!
 
+[![CI](https://github.com/HinTak/skia-building-fun/actions/workflows/ci.yml/badge.svg)](https://github.com/HinTak/skia-building-fun/actions/workflows/ci.yml)
+
 ## Building Skia on a shoe-string budget
 
 The official procedure for building Skia tries to download ~3.5 GB and spats 7.1 GB+ onto your
