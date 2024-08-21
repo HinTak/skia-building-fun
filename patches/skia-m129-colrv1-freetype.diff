@@ -107,3 +107,16 @@ index 444811e..d88433c 100644
      SkColor                 fForegroundColor;
      SkScalerContext::Flags  fFlags;
  
+diff --git a/src/core/SkFontDescriptor.h b/src/core/SkFontDescriptor.h
+index a3018ee..5eadbed 100644
+--- a/src/core/SkFontDescriptor.h
++++ b/src/core/SkFontDescriptor.h
+@@ -82,7 +82,7 @@ private:
+     skia_private::AutoSTMalloc<4, SkFontArguments::Palette::Override> fPaletteOverrides;
+ };
+ 
+-class SkFontDescriptor : SkNoncopyable {
++class SK_SPI SkFontDescriptor : SkNoncopyable {
+ public:
+     SkFontDescriptor();
+     // Does not affect ownership of SkStream.
