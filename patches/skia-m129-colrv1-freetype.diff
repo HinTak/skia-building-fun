@@ -1,5 +1,18 @@
+diff --git a/src/core/SkFontDescriptor.h b/src/core/SkFontDescriptor.h
+index a3018ee..5eadbed 100644
+--- a/src/core/SkFontDescriptor.h
++++ b/src/core/SkFontDescriptor.h
+@@ -82,7 +82,7 @@ private:
+     skia_private::AutoSTMalloc<4, SkFontArguments::Palette::Override> fPaletteOverrides;
+ };
+ 
+-class SkFontDescriptor : SkNoncopyable {
++class SK_SPI SkFontDescriptor : SkNoncopyable {
+ public:
+     SkFontDescriptor();
+     // Does not affect ownership of SkStream.
 diff --git a/src/ports/SkFontHost_FreeType.cpp b/src/ports/SkFontHost_FreeType.cpp
-index 0b81565..9163883 100644
+index 210814d..d976434 100644
 --- a/src/ports/SkFontHost_FreeType.cpp
 +++ b/src/ports/SkFontHost_FreeType.cpp
 @@ -33,7 +33,6 @@
@@ -19,7 +32,7 @@ index 0b81565..9163883 100644
  #include <freetype/ftlcdfil.h>
  #include <freetype/ftmodapi.h>
 diff --git a/src/ports/SkFontHost_FreeType_common.cpp b/src/ports/SkFontHost_FreeType_common.cpp
-index 050a127..8b98adc 100644
+index be5bc52..12bd7fe 100644
 --- a/src/ports/SkFontHost_FreeType_common.cpp
 +++ b/src/ports/SkFontHost_FreeType_common.cpp
 @@ -6,7 +6,6 @@
@@ -30,7 +43,7 @@ index 050a127..8b98adc 100644
  
  #include "include/core/SkBitmap.h"
  #include "include/core/SkCanvas.h"
-@@ -32,6 +31,7 @@
+@@ -34,6 +33,7 @@
  #ifdef FT_COLOR_H
  #   include <freetype/ftcolor.h>
  #endif
@@ -38,9 +51,9 @@ index 050a127..8b98adc 100644
  #include <freetype/ftimage.h>
  #include <freetype/ftoutln.h>
  #include <freetype/ftsizes.h>
-@@ -1577,6 +1577,41 @@ bool SkScalerContextFTUtils::drawCOLRv1Glyph(FT_Face face, const SkGlyph& glyph,
-     SkASSERTF(haveLayers, "Could not get COLRv1 layers from '%s'.", face->family_name);
-     return haveLayers;
+@@ -1575,6 +1575,41 @@ bool SkScalerContextFTUtils::drawCOLRv1Glyph(FT_Face face, const SkGlyph& glyph,
+                               face, glyph.getGlyphID(),
+                               FT_COLOR_INCLUDE_ROOT_TRANSFORM, &activePaints);
  }
 +/*
 + * This content is mostly just
@@ -81,7 +94,7 @@ index 050a127..8b98adc 100644
  
  #ifdef FT_COLOR_H
 diff --git a/src/ports/SkFontHost_FreeType_common.h b/src/ports/SkFontHost_FreeType_common.h
-index 444811e..d88433c 100644
+index cd19ec7..40842c5 100644
 --- a/src/ports/SkFontHost_FreeType_common.h
 +++ b/src/ports/SkFontHost_FreeType_common.h
 @@ -20,6 +20,7 @@ class SkCanvas;
@@ -107,16 +120,3 @@ index 444811e..d88433c 100644
      SkColor                 fForegroundColor;
      SkScalerContext::Flags  fFlags;
  
-diff --git a/src/core/SkFontDescriptor.h b/src/core/SkFontDescriptor.h
-index a3018ee..5eadbed 100644
---- a/src/core/SkFontDescriptor.h
-+++ b/src/core/SkFontDescriptor.h
-@@ -82,7 +82,7 @@ private:
-     skia_private::AutoSTMalloc<4, SkFontArguments::Palette::Override> fPaletteOverrides;
- };
- 
--class SkFontDescriptor : SkNoncopyable {
-+class SK_SPI SkFontDescriptor : SkNoncopyable {
- public:
-     SkFontDescriptor();
-     // Does not affect ownership of SkStream.
