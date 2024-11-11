@@ -14,7 +14,7 @@ git clone -b chrome/${VER} --depth 1 https://github.com/google/skia.git skia-${V
 pushd skia-${VER}/
 
     # Stop uninteresting downloads, and disable emsdk
-    patch -p1 < ../patches/skia-${VER}-minimize-download.diff
+#    patch -p1 < ../patches/skia-${VER}-minimize-download.diff
 
     # https://bugs.chromium.org/p/skia/issues/detail?id=14636
     # https://issues.skia.org/issues/40045538
@@ -50,11 +50,12 @@ pushd skia-${VER}/
     bin/gn gen out/Shared --args='is_official_build=true is_component_build=true skia_enable_svg=true skia_use_vulkan=true cc="/usr/bin/clang" cxx="/usr/bin/clang++"'
 
     # Static build presumably will be used for skia-python, which needs -frtti
-    bin/gn gen out/Release --args='is_official_build=true skia_enable_svg=true skia_use_vulkan=true cc="/usr/bin/clang" cxx="/usr/bin/clang++" extra_cflags_cc=["-frtti"]'
+    bin/gn gen out/Release --args='is_official_build=true skia_enable_svg=true skia_use_vulkan=true skia_enable_tools=true cc="/usr/bin/clang" cxx="/usr/bin/clang++" extra_cflags_cc=["-frtti"]'
 
     # time the build, keep the log
     /usr/bin/time -v ninja -C out/Shared/ 2>&1 | tee -a ../skia-${VER}-build-log-shared
     /usr/bin/time -v ninja -C out/Release/ 2>&1 | tee -a ../skia-${VER}-build-log-release
+    /usr/bin/time -v ninja -C out/Release/ dm viewer 2>&1 | tee -a ../skia-${VER}-build-log-release2
 
     # zip up the interesting part of outcome.
     find out/Shared/ -type f -name '*.a' -or -name '*.so' -or -type f -executable >  ../skia-${VER}-bin-file-list
