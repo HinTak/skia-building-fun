@@ -50,7 +50,7 @@ pushd skia-${VER}/
     bin/gn gen out/Shared --args='is_official_build=true is_component_build=true skia_enable_svg=true skia_use_vulkan=true cc="/usr/bin/clang" cxx="/usr/bin/clang++"'
 
     # Static build presumably will be used for skia-python, which needs -frtti
-    bin/gn gen out/Release --args='is_official_build=true skia_enable_svg=true skia_use_vulkan=true skia_enable_tools=true cc="/usr/bin/clang" cxx="/usr/bin/clang++" extra_cflags_cc=["-frtti"]'
+    bin/gn gen out/Release --args='cc="/usr/bin/clang" cxx="/usr/bin/clang++" extra_cflags_cc=["-frtti"]'
 
     # time the build, keep the log
     /usr/bin/time -v ninja -C out/Shared/ 2>&1 | tee -a ../skia-${VER}-build-log-shared
