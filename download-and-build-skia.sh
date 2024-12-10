@@ -51,10 +51,12 @@ pushd skia-${VER}/
 
     # Static build presumably will be used for skia-python, which needs -frtti
     bin/gn gen out/Release --args='is_official_build=true skia_enable_svg=true skia_use_vulkan=true cc="/usr/bin/clang" cxx="/usr/bin/clang++" extra_cflags_cc=["-frtti"]'
+    bin/gn gen out/REGL --args='is_official_build=true skia_enable_svg=true skia_use_vulkan=true skia_use_egl=true cc="/usr/bin/clang" cxx="/usr/bin/clang++" extra_cflags_cc=["-frtti"]'
 
     # time the build, keep the log
     /usr/bin/time -v ninja -C out/Shared/ 2>&1 | tee -a ../skia-${VER}-build-log-shared
     /usr/bin/time -v ninja -C out/Release/ 2>&1 | tee -a ../skia-${VER}-build-log-release
+    /usr/bin/time -v ninja -C out/REGL/ 2>&1 | tee -a ../skia-${VER}-build-log-release
 
     # zip up the interesting part of outcome.
     find out/Shared/ -type f -name '*.a' -or -name '*.so' -or -type f -executable >  ../skia-${VER}-bin-file-list
@@ -64,6 +66,7 @@ pushd skia-${VER}/
 
     # skia-python needs the resources/ for testing.
     find out/Release/ -type f -name '*.a' -or -name '*.so' -or -type f -executable >  ../skia-${VER}-bin-file-list-static
+    find out/REGL/ -type f -name '*.a' -or -name '*.so' -or -type f -executable >>  ../skia-${VER}-bin-file-list-static
     find include/ src/ modules/ -type f -name '*.h'       >> ../skia-${VER}-bin-file-list-static
     find resources/ -type f >> ../skia-${VER}-bin-file-list-static
 
