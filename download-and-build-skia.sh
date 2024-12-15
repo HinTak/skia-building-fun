@@ -25,6 +25,8 @@ pushd skia-${VER}/
     # https://issues.skia.org/358587938 sk_isdir is not public in skia's component build; required by skresources across component boundary
     patch -p1 < ../patches/skia-${VER}-symbols-for-skresources.diff
 
+    patch -p1 < ../patches/skia-${VER}-egl-runtime.diff
+
     # This is a non-standard patch which adds one new
     # method, and make another protected method public.
     # It could have been be a bit shorter, except enum
