@@ -13,15 +13,6 @@ Reviewed-by: Mike Klein <mtklein@google.com>
  third_party/libsdl/BUILD.gn | 2 +-
  3 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/AUTHORS b/AUTHORS
-index 3b86b840ce4f..85ace9de589a 100755
---- a/AUTHORS
-+++ b/AUTHORS
-@@ -69,3 +69,4 @@ Zhuo Qingliang <zhuo.dev@gmail.com>
- Mainframe North <*@mainframe.co.uk>
- JetBrains <*@jetbrains.com>
- Vibe Inc <*@vibe.us>
-+Scene Group Ltd. <*@scenegroup.co>
 diff --git a/BUILD.gn b/BUILD.gn
 index b762d9fe8f85..3985f614c6c8 100644
 --- a/BUILD.gn
