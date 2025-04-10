@@ -1,0 +1,13 @@
+diff --git a/BUILD.gn b/BUILD.gn
+index e7a79b9..539d02d 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -1447,7 +1447,7 @@ if (skia_enable_tools) {
+     skia_h = "$target_gen_dir/skia.h"
+     script = "gn/find_headers.py"
+ 
+-    args = [ rebase_path("//bin/gn") ] + [ rebase_path("//") ] +
++    args = [ "gn" ] + [ rebase_path("//") ] +
+            [ rebase_path(skia_h, root_build_dir) ] +
+            rebase_path(skia_public_includes)
+     depfile = "$skia_h.deps"
