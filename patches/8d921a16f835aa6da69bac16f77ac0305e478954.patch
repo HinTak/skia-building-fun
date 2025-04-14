@@ -1,0 +1,45 @@
+From 8d921a16f835aa6da69bac16f77ac0305e478954 Mon Sep 17 00:00:00 2001
+From: Sylvain Defresne <sdefresne@chromium.org>
+Date: Wed, 7 Oct 2020 18:35:14 +0200
+Subject: [PATCH] build: Remove no-op calls to set_sources_assignment_filter
+
+Chromiun no longer use set_sources_assignment_filter() anywhere in the
+build, so these are no longer needed.
+
+Bug: chromium:1018739
+Change-Id: I0e460922947430ed357838ff4196516d19c382a5
+Reviewed-on: https://skia-review.googlesource.com/c/skia/+/323636
+Commit-Queue: Mike Klein <mtklein@google.com>
+Reviewed-by: Mike Klein <mtklein@google.com>
+---
+ BUILD.gn | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/BUILD.gn b/BUILD.gn
+index 2d9dab15e0d2..3b99667c59ed 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -1184,11 +1184,6 @@ component("skia") {
+     ":xml",
+   ]
+ 
+-  # This file (and all GN files in Skia) are designed to work with an
+-  # empty sources assignment filter; we handle all that explicitly.
+-  # We clear the filter here for clients who may have set up a global filter.
+-  set_sources_assignment_filter([])
+-
+   public = skia_core_public
+   public += skia_utils_public
+   public += skia_effects_public
+@@ -1351,11 +1346,6 @@ static_library("pathkit") {
+     ":ssse3",
+   ]
+ 
+-  # This file (and all GN files in Skia) are designed to work with an
+-  # empty sources assignment filter; we handle all that explicitly.
+-  # We clear the filter here for clients who may have set up a global filter.
+-  set_sources_assignment_filter([])
+-
+   sources = []
+   sources += skia_pathops_sources
+   sources += skia_pathops_public
