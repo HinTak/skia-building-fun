@@ -27,8 +27,8 @@ jobs:
             skia-m*-*
 
   m87:
-    runs-on: ubuntu-latest
-    container: fedora:41
+    runs-on: ubuntu-latest-arm
+    container: arm64v8/fedora:latest
     permissions:
       contents: write
     steps:
