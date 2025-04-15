@@ -1,0 +1,17 @@
+diff --git a/setup.py b/setup.py
+index 38d38604..856d88af 100644
+--- a/setup.py
++++ b/setup.py
+@@ -106,6 +106,12 @@ else:
+         'fontconfig',
+         'freetype',
+         'GL',
++        'expat',
++        'icuuc',
++        'webp',
++        'jpeg',
++        'webpdemux',
++        'webpmux',
+     ]
+     EXTRA_OBJECTS = list(
+         glob.glob(
