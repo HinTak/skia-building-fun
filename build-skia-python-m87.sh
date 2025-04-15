@@ -2,7 +2,7 @@
 
 # Copyright 2025 Hin-Tak Leung
 
-git clone -b m87 --depth 1 git@github.com:kyamagu/skia-python.git skia-python
+git clone -b m87 --depth 1 https://github.com/kyamagu/skia-python.git skia-python
 
 pushd skia-python
     patch -p1 < ../patches/m87-separate-lib.diff
