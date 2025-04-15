@@ -9,7 +9,8 @@ pushd skia-python
     pushd skia
         unzip ../../skia-m87-static-bin.zip
     popd
-    python setup.py install --user
+    python -m build --wheel
+    python -m pip install dist/*.whl
     pytest
 popd
 
