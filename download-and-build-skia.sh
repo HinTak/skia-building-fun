@@ -119,4 +119,6 @@ fi
 
 if [ "${VER}" = 'm87' ]; then
     [ -f skia-python/dist/*.whl ]
+else
+    [ -f skia-${VER}/out/Release/libskia.a ]
 fi
