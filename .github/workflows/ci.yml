@@ -25,3 +25,16 @@ jobs:
         with:
           files: |
             skia-m*-*
+
+  m87:
+    runs-on: ubuntu-latest
+    container: fedora:41
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - run: dnf install -y expat-devel fontconfig-devel freetype-devel harfbuzz-devel brotli-devel
+      - run: dnf install -y libicu-devel libjpeg-turbo-devel libwebp-devel libxml2-devel mesa-libGL-devel
+      - run: dnf install -y clang git patch time zip python-unversioned-command ninja-build gn
+      - run: ./download-and-build-skia.sh m87
