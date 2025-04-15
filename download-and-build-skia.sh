@@ -115,10 +115,8 @@ if [ "${VER}" = 'm87' ]; then
 fi
 
 # Test for result for failures, since popd does not.
-[ -f skia-${VER}/out/Release/libskia.a ] && rm -rf skia-${VER}/
-
 if [ "${VER}" = 'm87' ]; then
-    [ -f skia-python/dist/*.whl ]
+    [ -f skia-${VER}/out/Release/libskia.a ] && rm -rf skia-${VER}/ && [ -f skia-python/dist/*.whl ]
 else
-    [ -f skia-${VER}/out/Release/libskia.a ]
+    [ -f skia-${VER}/out/Release/libskia.a ] && rm -rf skia-${VER}/
 fi
