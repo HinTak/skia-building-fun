@@ -37,4 +37,5 @@ jobs:
       - run: dnf install -y libicu-devel libjpeg-turbo-devel libwebp-devel libxml2-devel mesa-libGL-devel
       - run: dnf install -y clang git patch time zip python-unversioned-command ninja-build gn
       - run: dnf install -y python3-setuptools python3-pybind11 python3-pytest python3-numpy python3-build python3-devel python3-pillow python3-glfw
+      - run: dnf install -y xorg-x11-server-Xvfb python3-pytest-xvfb
       - run: ./download-and-build-skia.sh m87
