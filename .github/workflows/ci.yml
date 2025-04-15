@@ -4,7 +4,6 @@ on:
   push:
     paths-ignore:
       - README.md
-      - .github/**
 
 jobs:
   build:
@@ -37,5 +36,5 @@ jobs:
       - run: dnf install -y expat-devel fontconfig-devel freetype-devel harfbuzz-devel brotli-devel
       - run: dnf install -y libicu-devel libjpeg-turbo-devel libwebp-devel libxml2-devel mesa-libGL-devel
       - run: dnf install -y clang git patch time zip python-unversioned-command ninja-build gn
-      - run: dnf install -y python3-pytest python3-numpy
+      - run: dnf install -y python3-setuptools python3-pytest python3-numpy
       - run: ./download-and-build-skia.sh m87
