@@ -1,3 +1,4 @@
+https://issues.skia.org/issues/382016481 SkOrderedFontMgr::onMatchFamily returns empty matches
 https://issues.skia.org/371224771 SkShaper on windows mal-functions if icudtl.dat is present, yet it is required by skparagraph(with warning)
 https://issues.skia.org/361963992 skparagraph's font choice overwhelmingly bias towards CJK fonts on Linux/fontconfig platforms
 https://issues.skia.org/358798723 inconsistency referring to png and jpeg in example/external_client/src/shape_text.cpp
