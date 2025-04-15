@@ -110,5 +110,9 @@ pushd skia-${VER}/
     grep 'Exit status' ../*-log-*
 popd
 
+if [ "${VER}" = 'm87' ]; then
+    ./build-skia-python-m87.sh
+fi
+
 # Test for result for failures, since popd does not.
 [ -f skia-${VER}/out/Release/libskia.a ] && rm -rf skia-${VER}/
