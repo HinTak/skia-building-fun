@@ -27,16 +27,18 @@ $ git show chrome/m87:bin/fetch-gn | grep rev
   url = 'https://chrome-infra-packages.appspot.com/dl/gn/gn/{}/+/git_revision:{}'.format(pkg,rev)
 ```
 
-m136 | 2175
-m131 | 2175
-m128 | 2175
-m127 | 2082
-m126 | 2082
-m116 | 2082
-fe330c0ae1ec29db30b6f830e50771a335e071fb | 2082
-
-m87  | 1793
-981f46c64d1456d2083b1a2fa1367e753e0cdc1b | 1774
+| Milestone | GN version |
+| ---  | --- |
+| m136 | 2175 |
+| m131 | 2175 |
+| m128 | 2175 |
+| m127 | 2082 |
+| m126 | 2082 |
+| m116 | 2082 |
+| fe330c0ae1ec29db30b6f830e50771a335e071fb | 2082 |
+| ---  | --- |
+| m87  | 1793 |
+981f46c64d1456d2083b1a2fa1367e753e0cdc1b | 1774 |
 
 m87 does not have a `bin/fetch-ninja`, but m116 does; but `bin/fetch-ninja`
 
@@ -48,9 +50,11 @@ $ git show chrome/m116:bin/fetch-ninja | grep -A 1 'url ='
 
 ninja's `desired_version` is read from `DEPS`.
 
-m136 | version:2@1.12.1.chromium.4
-m128 | version:2@1.12.1.chromium.4
-m127 | version:2@1.8.2.chromium.3
-m126 | version:2@1.8.2.chromium.3
-m116 | version:2@1.8.2.chromium.3
+| Milestone | GN version |
+| ---  | --- |
+| m136 | version:2@1.12.1.chromium.4 |
+| m128 | version:2@1.12.1.chromium.4 |
+| m127 | version:2@1.8.2.chromium.3 |
+| m126 | version:2@1.8.2.chromium.3 |
+| m116 | version:2@1.8.2.chromium.3 |
 
