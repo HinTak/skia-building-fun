@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: fedora:41
+    container: fedora:42
     permissions:
       contents: write
     steps:
