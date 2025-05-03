@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git clone --bare --no-single-branch --depth 1 git@github.com:google/skia.git
+git clone --mirror --no-single-branch --depth 1 git@github.com:google/skia.git
 pushd skia.git
 #
 # m87 Branch point:
