@@ -1,3 +1,9 @@
+This repository provides a guide on how to build the Skia graphics library (version M116+) with minimal resource usage. Specifically, it demonstrates how to achieve the build using only around 80MB of download and 300MB of disk space.
+
+- Purpose: To provide a minimalistic and efficient method for building the Skia graphics library.
+
+This repository focus on optimizing the build process for Skia, which is a widely used 2D graphics library.
+
 # How to build Skia m116+ with ~80MB download and ~300MB disk space!
 
 [![CI](https://github.com/HinTak/skia-building-fun/actions/workflows/ci.yml/badge.svg)](https://github.com/HinTak/skia-building-fun/actions/workflows/ci.yml)
