@@ -1,4 +1,4 @@
-This repository provides a guide on how to build the Skia graphics library (version M116+) with minimal resource usage. Specifically, it demonstrates how to achieve the build using only around 80MB of download and 300MB of disk space.
+This repository provides a guide on how to build the Skia graphics library (version M116+ to M139+) with minimal resource usage. Specifically, it demonstrates how to achieve the build using only around 80MB of download and 300MB of disk space.
 
 - Purpose: To provide a minimalistic and efficient method for building the Skia graphics library.
 
