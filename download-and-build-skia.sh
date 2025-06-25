@@ -2,7 +2,7 @@
 
 # Copyright 2023 Hin-Tak Leung
 
-# currently only works for "m87", "m88", "m98", "m103" and "m116" onwards.
+# currently only works for "m87", "m88", "m98", "m103" and "m116" onwards to m139
 
 ARG1=${1}
 
