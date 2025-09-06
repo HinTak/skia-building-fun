@@ -1,0 +1,44 @@
+sed -i "/third_party\/externals\/angle2/d" DEPS
+sed -i "/third_party\/externals\/brotli/d" DEPS
+sed -i "/third_party\/externals\/d3d12allocator/d" DEPS
+sed -i "/Dawn requires jinja2 and markupsafe for the code generator/d" DEPS
+sed -i "/When the Dawn revision is updated these should be updated/d" DEPS
+sed -i "/third_party\/externals\/dawn/d" DEPS
+sed -i "/third_party\/externals\/jinja2/d" DEPS
+sed -i "/third_party\/externals\/markupsafe/d" DEPS
+sed -i "/third_party\/externals\/abseil-cpp/d" DEPS
+sed -i "/third_party\/externals\/delaunator-cpp/d" DEPS
+sed -i "/third_party\/externals\/egl-registry/d" DEPS
+sed -i "/third_party\/externals\/emsdk/d" DEPS
+sed -i "/third_party\/externals\/expat/d" DEPS
+sed -i "/third_party\/externals\/freetype/d" DEPS
+sed -i "/third_party\/externals\/harfbuzz/d" DEPS
+sed -i "/third_party\/externals\/highway/d" DEPS
+sed -i "/third_party\/externals\/icu/d" DEPS
+sed -i "/third_party\/externals\/icu4x/d" DEPS
+sed -i "/third_party\/externals\/imgui/d" DEPS
+sed -i "/third_party\/externals\/libavif/d" DEPS
+sed -i "/third_party\/externals\/libgav1/d" DEPS
+sed -i "/third_party\/externals\/libgrapheme/d" DEPS
+sed -i "/third_party\/externals\/libjpeg-turbo/d" DEPS
+sed -i "/third_party\/externals\/libjxl/d" DEPS
+sed -i "/third_party\/externals\/libpng/d" DEPS
+sed -i "/third_party\/externals\/libwebp/d" DEPS
+sed -i "/third_party\/externals\/libyuv/d" DEPS
+sed -i "/third_party\/externals\/oboe/d" DEPS
+sed -i "/third_party\/externals\/opengl-registry/d" DEPS
+sed -i "/third_party\/externals\/partition_alloc/d" DEPS
+sed -i "/third_party\/externals\/perfetto/d" DEPS
+sed -i "/third_party\/externals\/swiftshader/d" DEPS
+sed -i "/vulkan-deps is a meta-repo containing several interdependent Khronos Vulkan repositories./d" DEPS
+sed -i "/When the vulkan-deps revision is updated, those repos/d" DEPS
+sed -i "/third_party\/externals\/vulkan-deps/d" DEPS
+sed -i "/third_party\/externals\/spirv-cross/d" DEPS
+sed -i "/third_party\/externals\/spirv-headers/d" DEPS
+sed -i "/third_party\/externals\/spirv-tools/d" DEPS
+sed -i "/third_party\/externals\/vello/d" DEPS
+sed -i "/third_party\/externals\/vulkan-headers/d" DEPS
+sed -i "/third_party\/externals\/vulkan-tools/d" DEPS
+sed -i "/third_party\/externals\/vulkan-utility-libraries/d" DEPS
+sed -i "/third_party\/externals\/unicodetools/d" DEPS
+sed -i "/third_party\/externals\/v8/d" DEPS
