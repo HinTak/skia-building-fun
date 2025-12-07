@@ -60,3 +60,15 @@ index 71dec2e..4f9c378 100644
    "third_party/externals/wuffs"                  : "https://skia.googlesource.com/external/github.com/google/wuffs-mirror-release-c.git@e3f919ccfe3ef542cfc983a82146070258fb57f8",
    "third_party/externals/zlib"                   : "https://chromium.googlesource.com/chromium/src/third_party/zlib@646b7f569718921d7d4b5b8e22572ff6c76f2596",
  
+diff --git a/bin/activate-emsdk b/bin/activate-emsdk
+index b3c529f..81a1c60 100755
+--- a/bin/activate-emsdk
++++ b/bin/activate-emsdk
+@@ -18,6 +18,7 @@ EMSDK_PATH = os.path.join(EMSDK_ROOT, 'emsdk.py')
+ EMSDK_VERSION = '4.0.7'
+ 
+ def main():
++    return
+     if sysconfig.get_platform() in ['linux-aarch64', 'linux-arm64']:
+         # This platform cannot install emsdk at the provided version. See
+         # https://github.com/emscripten-core/emsdk/blob/main/emscripten-releases-tags.json#L5
