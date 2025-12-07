@@ -2,10 +2,13 @@ sed -i "/third_party\/externals\/angle2/d" DEPS
 sed -i "/third_party\/externals\/brotli/d" DEPS
 sed -i "/third_party\/externals\/d3d12allocator/d" DEPS
 sed -i "/Dawn requires jinja2 and markupsafe for the code generator/d" DEPS
+sed -i "/ and a few other depencencies./d" DEPS
 sed -i "/When the Dawn revision is updated these should be updated/d" DEPS
 sed -i "/third_party\/externals\/dawn/d" DEPS
 sed -i "/third_party\/externals\/jinja2/d" DEPS
 sed -i "/third_party\/externals\/markupsafe/d" DEPS
+sed -i "/third_party\/externals\/glslang/d" DEPS
+sed -i "/third_party\/externals\/webgpu-headers/d" DEPS
 sed -i "/third_party\/externals\/abseil-cpp/d" DEPS
 sed -i "/third_party\/externals\/delaunator-cpp/d" DEPS
 sed -i "/third_party\/externals\/egl-registry/d" DEPS
