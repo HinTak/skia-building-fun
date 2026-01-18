@@ -38,12 +38,12 @@ diff --git a/include/gpu/graphite/precompile/PrecompileShader.h b/include/gpu/gr
 index d85a8a6e3e..d04b780a7c 100644
 --- a/include/gpu/graphite/precompile/PrecompileShader.h
 +++ b/include/gpu/graphite/precompile/PrecompileShader.h
-@@ -14,6 +14,10 @@
+@@ -14,7 +14,10 @@
  #include "include/core/SkImageInfo.h"
  #include "include/effects/SkGradient.h"
  
 +#ifdef SK_SUPPORT_LEGACY_UNSPANNED_GRADIENTS
-+#include "include/effects/SkGradientShader.h"
+ #include "include/effects/SkGradientShader.h"
 +#endif
 +
  class SkColorSpace;
@@ -53,12 +53,12 @@ diff --git a/src/shaders/gradients/SkConicalGradient.cpp b/src/shaders/gradients
 index ab368b6af6..0e65e02f64 100644
 --- a/src/shaders/gradients/SkConicalGradient.cpp
 +++ b/src/shaders/gradients/SkConicalGradient.cpp
-@@ -29,6 +29,10 @@
+@@ -29,7 +29,10 @@
  #include <cstdint>
  #include <utility>
  
 +#ifdef SK_SUPPORT_LEGACY_UNSPANNED_GRADIENTS
-+#include "include/effects/SkGradientShader.h"
+ #include "include/effects/SkGradientShader.h"
 +#endif
 +
  bool SkConicalGradient::FocalData::set(SkScalar r0, SkScalar r1, SkMatrix* matrix) {
@@ -68,12 +68,12 @@ diff --git a/src/shaders/gradients/SkLinearGradient.cpp b/src/shaders/gradients/
 index e515e9f0d3..e2adc0ad40 100644
 --- a/src/shaders/gradients/SkLinearGradient.cpp
 +++ b/src/shaders/gradients/SkLinearGradient.cpp
-@@ -23,6 +23,10 @@
+@@ -23,7 +23,10 @@
  #include <cstdint>
  #include <utility>
  
 +#ifdef SK_SUPPORT_LEGACY_UNSPANNED_GRADIENTS
-+#include "include/effects/SkGradientShader.h"
+ #include "include/effects/SkGradientShader.h"
 +#endif
 +
  class SkArenaAlloc;
@@ -83,12 +83,12 @@ diff --git a/src/shaders/gradients/SkRadialGradient.cpp b/src/shaders/gradients/
 index 8837651c27..016c82e13d 100644
 --- a/src/shaders/gradients/SkRadialGradient.cpp
 +++ b/src/shaders/gradients/SkRadialGradient.cpp
-@@ -23,6 +23,10 @@
+@@ -23,7 +23,10 @@
  #include <cstdint>
  #include <utility>
  
 +#ifdef SK_SUPPORT_LEGACY_UNSPANNED_GRADIENTS
-+#include "include/effects/SkGradientShader.h"
+ #include "include/effects/SkGradientShader.h"
 +#endif
 +
  class SkArenaAlloc;
@@ -98,12 +98,12 @@ diff --git a/src/shaders/gradients/SkSweepGradient.cpp b/src/shaders/gradients/S
 index 411f42658e..6c53ba3fe5 100644
 --- a/src/shaders/gradients/SkSweepGradient.cpp
 +++ b/src/shaders/gradients/SkSweepGradient.cpp
-@@ -28,6 +28,10 @@
+@@ -28,7 +28,10 @@
  #include <tuple>
  #include <utility>
  
 +#ifdef SK_SUPPORT_LEGACY_UNSPANNED_GRADIENTS
-+#include "include/effects/SkGradientShader.h"
+ #include "include/effects/SkGradientShader.h"
 +#endif
 +
  class SkArenaAlloc;
