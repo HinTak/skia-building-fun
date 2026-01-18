@@ -49,10 +49,14 @@ pushd skia-${VER}/
     #patch -p1 < ../patches/0001-Hook-up-SkSVGOpenTypeSVGDecoder-Make-to-enable-OT-SV.patch
 
     # m143+ SK_HIDE_PATH_EDIT_METHODS breakage
-    patch -R -p1 < ../patches/0001-Remove-unused-methods.patch
-    patch -R -p1 < ../patches/0001-Remove-obsolete-types-in-SkPath.h.patch
-    patch -R -p1 < ../patches/0001-Remove-dead-code-related-to-SkPathRef.patch
-    patch -R -p1 < ../patches/0001-Reland-Make-SkPath-immutable-on-GN-build.patch
+    if [ "${VER}" != 'm87' ]; then
+        #m145
+        patch -R -p1 < ../patches/0001-Remove-unused-methods.patch
+        patch -R -p1 < ../patches/0001-Remove-obsolete-types-in-SkPath.h.patch
+        patch -R -p1 < ../patches/0001-Remove-dead-code-related-to-SkPathRef.patch
+        #m144
+        patch -R -p1 < ../patches/0001-Reland-Make-SkPath-immutable-on-GN-build.patch
+    fi
 
     # Official build process from here:
     python tools/git-sync-deps
