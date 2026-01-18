@@ -49,6 +49,7 @@ pushd skia-${VER}/
     #patch -p1 < ../patches/0001-Hook-up-SkSVGOpenTypeSVGDecoder-Make-to-enable-OT-SV.patch
 
     # m143+ SK_HIDE_PATH_EDIT_METHODS breakage
+    patch -R -p1 < ../patches/0001-Remove-obsolete-types-in-SkPath.h.patch
     patch -R -p1 < ../patches/0001-Remove-dead-code-related-to-SkPathRef.patch
     patch -R -p1 < ../patches/0001-Reland-Make-SkPath-immutable-on-GN-build.patch
 
