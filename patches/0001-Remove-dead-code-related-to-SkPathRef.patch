@@ -4077,8 +4077,8 @@ diff --git a/src/core/SkPath_serial.cpp b/src/core/SkPath_serial.cpp
 index b0831232d4..95f28580b6 100644
 --- a/src/core/SkPath_serial.cpp
 +++ b/src/core/SkPath_serial.cpp
-@@ -198,16 +198,6 @@ size_t SkPath::readAsRRect(const void* storage, size_t length) {
-     return buffer.pos();
+@@ -207,16 +207,6 @@ std::optional<SkPath> read_rrect_path(const void* storage, size_t length, size_t
+     return path;
  }
  
 -#ifndef SK_HIDE_PATH_EDIT_METHODS
@@ -4091,9 +4091,9 @@ index b0831232d4..95f28580b6 100644
 -}
 -#endif
 -
- #define RETURN_PATH_AND_BYTES(p, b) \
-     do { if (bytesRead) { *bytesRead = b; }; return p; } while (0)
- 
+ std::optional<SkPath> SkPath::ReadFromMemory(const void* storage, size_t length, size_t* bytesRead) {
+     size_t bytesStorage = 0;
+     if (!bytesRead) {
 diff --git a/src/core/SkRegion_path.cpp b/src/core/SkRegion_path.cpp
 index affa348c3b..23098ebbf4 100644
 --- a/src/core/SkRegion_path.cpp
