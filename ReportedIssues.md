@@ -1,3 +1,4 @@
+https://qt-project.atlassian.net/browse/QTBUG-137158
 https://issues.skia.org/437940184 arm64 windows binary for gn from fetch-gn is failing with 404 error
 https://issues.skia.org/420271794 arm64 windows: target_cpu="arm64" conflicts with skia_use_freetype=true
 https://issues.skia.org/issues/382016481 SkOrderedFontMgr::onMatchFamily returns empty matches
