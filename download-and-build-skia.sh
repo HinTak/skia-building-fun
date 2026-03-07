@@ -50,6 +50,8 @@ pushd skia-${VER}/
 
     # m143+ SK_HIDE_PATH_EDIT_METHODS breakage
     if [ "${VER}" != 'm87' ]; then
+        #m146
+        patch -R -p1 < ../patches/0001-Move-code-out-of-SkPath_pathdata.cpp.patch
         #m145
         patch -R -p1 < ../patches/0001-Proper-copy-and-move-for-path-classes.patch
         patch -R -p1 < ../patches/0001-Conditionally-include-SkGradientShader.h.patch

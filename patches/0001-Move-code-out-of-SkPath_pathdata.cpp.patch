@@ -1,0 +1,552 @@
+From 39aa2a70213a831964d763dfd1dcd6a5f3410da1 Mon Sep 17 00:00:00 2001
+From: Ben Wagner <bungeman@google.com>
+Date: Tue, 20 Jan 2026 16:37:04 -0500
+Subject: [PATCH] Move code out of SkPath_pathdata.cpp
+
+SkPath_pathdata.cpp existed so that Skia could be compiled with the old
+SkPathRef or the new SkPathData. Now that the old SkPathRef has been
+removed the SkPathData can be used directly. This moves the contents of
+SkPath_pathdata.cpp to the files the code naturally belongs to.
+
+Change-Id: If48a82a4c7fce1ce9ac0b0b64278381ca2a60aa0
+Reviewed-on: https://skia-review.googlesource.com/c/skia/+/1145998
+Commit-Queue: Ben Wagner <bungeman@google.com>
+Reviewed-by: Florin Malita <fmalita@google.com>
+Signed-off-by: Hin-Tak Leung <htl10@users.sourceforge.net>
+---
+ gn/core.gni                  |   1 -
+ src/core/BUILD.bazel         |   1 -
+ src/core/SkPath.cpp          | 164 +++++++++++++++++++++++--
+ src/core/SkPathBuilder.cpp   |  34 ++++++
+ src/core/SkPathPriv.cpp      |  14 +++
+ src/core/SkPath_pathdata.cpp | 229 -----------------------------------
+ 6 files changed, 201 insertions(+), 242 deletions(-)
+ delete mode 100644 src/core/SkPath_pathdata.cpp
+
+diff --git a/gn/core.gni b/gn/core.gni
+index 20140b45af..35e8a41c09 100644
+--- a/gn/core.gni
++++ b/gn/core.gni
+@@ -492,7 +492,6 @@ skia_core_sources = [
+   "$_src/core/SkPathRawShapes.h",
+   "$_src/core/SkPathUtils.cpp",
+   "$_src/core/SkPath_interpolate.cpp",
+-  "$_src/core/SkPath_pathdata.cpp",
+   "$_src/core/SkPath_serial.cpp",
+   "$_src/core/SkPicture.cpp",
+   "$_src/core/SkPictureData.cpp",
+diff --git a/src/core/BUILD.bazel b/src/core/BUILD.bazel
+index 6700463289..93c100754c 100644
+--- a/src/core/BUILD.bazel
++++ b/src/core/BUILD.bazel
+@@ -357,7 +357,6 @@ skia_filegroup(
+         "SkPath.cpp",
+         "SkPathData.cpp",
+         "SkPath_interpolate.cpp",
+-        "SkPath_pathdata.cpp",
+         "SkPathBuilder.cpp",
+         "SkPathDump.cpp",
+         "SkPathEffect.cpp",
+diff --git a/src/core/SkPath.cpp b/src/core/SkPath.cpp
+index 0ddd7931cc..a9be95e631 100644
+--- a/src/core/SkPath.cpp
++++ b/src/core/SkPath.cpp
+@@ -28,23 +28,143 @@
+ #include <limits.h>
+ #include <utility>
+ 
+-/*  Contains path methods that are common between fPathRef and fPathData implementations:
+- *  - fFillType
+- *  - fIsVolatile
+- *
+- *  Any methods that refer to these fields should be in SkPath_pathref.cpp
+- *  - fPathRef
+- *  - fConvexity
+- *  - fLastMoveToIndex
+- *
+- *  ... with the plan being to create a parallel file that implements those methods on SkPathData
+- */
++SkPath::SkPath(sk_sp<SkPathData> pd, SkPathFillType ft, bool isVolatile)
++    : fPathData(std::move(pd))
++    , fFillType(ft)
++    , fIsVolatile(isVolatile)
++{
++    SkASSERT(fPathData);
++}
+ 
++SkPath::SkPath(SkPathFillType ft)
++    : fPathData(SkPathData::Empty())
++    , fFillType(ft)
++    , fIsVolatile(false)
++{}
++
++SkPath::SkPath(const SkPath&) = default;
++SkPath& SkPath::operator=(const SkPath&) = default;
++SkPath::SkPath(SkPath&&) = default;
++SkPath& SkPath::operator=(SkPath&&) = default;
+ 
+ SkPath::~SkPath() {
+     SkDEBUGCODE(this->validate();)
+ }
+ 
++void SkPath::setConvexity(SkPathConvexity c) const {
++    fPathData->setConvexity(c);
++}
++
++SkPathConvexity SkPath::getConvexityOrUnknown() const {
++    return fPathData->getConvexityOrUnknown();
++}
++
++bool operator==(const SkPath& a, const SkPath& b) {
++    return &a == &b ||
++          (a.fFillType == b.fFillType && *a.fPathData == *b.fPathData);
++}
++
++void SkPath::swap(SkPath& that) {
++    if (this != &that) {
++        fPathData.swap(that.fPathData);
++        std::swap(fFillType, that.fFillType);
++        std::swap(fIsVolatile, that.fIsVolatile);
++    }
++}
++
++SkPath& SkPath::reset() {
++    *this = SkPath();
++    return *this;
++}
++
++const SkRect& SkPath::getBounds() const {
++    return fPathData->bounds();
++}
++
++uint32_t SkPath::getSegmentMasks() const {
++    return fPathData->segmentMask();
++}
++
++bool SkPath::isFinite() const {
++    return fPathData.get() != PeekErrorSingleton();
++}
++
++bool SkPath::isValid() const { return this->isFinite(); }
++
++uint32_t SkPath::getGenerationID() const { return fPathData->uniqueID(); }
++
++#ifdef SK_DEBUG
++void SkPath::validate() const {}
++#endif
++
++std::optional<SkPathOvalInfo> SkPath::getOvalInfo() const { return fPathData->asOval(); }
++std::optional<SkPathRRectInfo> SkPath::getRRectInfo() const { return fPathData->asRRect(); }
++
++SkSpan<const SkPoint> SkPath::points() const { return fPathData->points(); }
++SkSpan<const SkPathVerb> SkPath::verbs() const { return fPathData->verbs(); }
++SkSpan<const float> SkPath::conicWeights() const { return fPathData->conics(); }
++
++SkPath SkPath::Raw(SkSpan<const SkPoint> pts, SkSpan<const SkPathVerb> vbs,
++                   SkSpan<const float> ws, SkPathFillType ft, bool isVolatile) {
++    return MakeNullCheck(SkPathData::Make(pts, vbs, ws), ft, isVolatile);
++}
++
++SkPath SkPath::Rect(const SkRect& r, SkPathFillType ft, SkPathDirection dir, unsigned startIndex) {
++    startIndex &= 3;    // keep it legal
++    return MakeNullCheck(SkPathData::Rect(r, dir, startIndex), ft, false);
++}
++
++SkPath SkPath::Oval(const SkRect& r, SkPathDirection dir, unsigned startIndex) {
++    startIndex &= 3;    // keep it legal
++    return MakeNullCheck(SkPathData::Oval(r, dir, startIndex), SkPathFillType::kDefault, false);
++}
++
++SkPath SkPath::RRect(const SkRRect& rr, SkPathDirection dir, unsigned startIndex) {
++    startIndex &= 7;    // keep it legal
++    // To be backwards compatible with the old impl for building a rrect path, we
++    // first check to see if the rrect itself can be simplified...
++    const SkRect& bounds = rr.getBounds();
++    auto [asType, newIndex] = SkPathPriv::SimplifyRRect(rr, startIndex);
++    switch (asType) {
++        case SkPathPriv::RRectAsEnum::kRect:
++            return SkPath::Rect(bounds, SkPathFillType::kDefault, dir, newIndex);
++
++        case SkPathPriv::RRectAsEnum::kOval:
++            return SkPath::Oval(bounds, dir, newIndex);
++
++        case SkPathPriv::RRectAsEnum::kRRect:
++            // fall through
++            break;
++    }
++    return MakeNullCheck(SkPathData::RRect(rr, dir, newIndex), SkPathFillType::kDefault, false);
++}
++
++SkPath SkPath::Polygon(SkSpan<const SkPoint> pts, bool isClosed,
++                       SkPathFillType ft, bool isVolatile) {
++    return MakeNullCheck(SkPathData::Polygon(pts, isClosed), ft, isVolatile);
++}
++
++std::optional<SkPath> SkPath::tryMakeTransform(const SkMatrix& matrix) const {
++    if (auto pdata = fPathData->makeTransform(matrix)) {
++        return SkPath(std::move(pdata), fFillType, fIsVolatile);
++    }
++    return {};
++}
++
++SkPath SkPath::makeTransform(const SkMatrix& matrix) const {
++    if (!this->isFinite()) {
++        return *this;
++    }
++    if (auto newpath = this->tryMakeTransform(matrix)) {
++        return *newpath;
++    }
++    return SkPath(sk_ref_sp(PeekErrorSingleton()), fFillType, false);
++}
++
++std::optional<SkPathRaw> SkPath::raw(SkResolveConvexity rc) const {
++    return fPathData->raw(fFillType, rc);
++}
++
+ static inline bool check_edge_against_rect(const SkPoint& p0,
+                                            const SkPoint& p1,
+                                            const SkRect& rect,
+@@ -608,6 +728,28 @@ SkPathFirstDirection SkPathPriv::ComputeFirstDirection(const SkPath& path) {
+     }
+ }
+ 
++/*
++ *  This returns a singleton instance which SkPath uses to signify that its pathdata is in error:
++ *  either because the inputs were invalid (e.g. bad verbs), or its coordintes were non-finite
++ *  (either from the client, or after a makeTransform() call).
++ */
++SkPathData* SkPath::PeekErrorSingleton() {
++    static SkPathData* gErrorSingleton = SkPathData::MakeNoCheck({}, {}, {}, {}, {}).release();
++
++    // Make sure MakeNoCheck() didn't alias us to the standard Empty instance. We want our
++    // pointer to be distinct from that one.
++    SkASSERT(gErrorSingleton != SkPathData::Empty().get());
++
++    return gErrorSingleton;
++}
++
++SkPath SkPath::MakeNullCheck(sk_sp<SkPathData> pdata, SkPathFillType ft, bool isVolatile) {
++    if (!pdata) {
++        pdata = sk_ref_sp(PeekErrorSingleton());
++    }
++    return SkPath(std::move(pdata), ft, isVolatile);
++}
++
+ ///////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+ struct SkHalfPlane {
+diff --git a/src/core/SkPathBuilder.cpp b/src/core/SkPathBuilder.cpp
+index bcab6bfff5..81bda4aa8f 100644
+--- a/src/core/SkPathBuilder.cpp
++++ b/src/core/SkPathBuilder.cpp
+@@ -67,6 +67,25 @@ SkPathBuilder::SkPathBuilder(const SkPath& src) {
+     *this = src;
+ }
+ 
++SkPathBuilder& SkPathBuilder::operator=(const SkPath& src) {
++    this->reset().setFillType(src.getFillType());
++    this->setIsVolatile(src.isVolatile());
++
++    if (src.isEmpty()) {
++        return *this;
++    }
++
++    this->addRaw(src.fPathData->raw(src.getFillType(), SkResolveConvexity::kYes));
++
++    // These are not part of SkPathRaw, so we set them separately
++    fLastMoveIndex = SkPathPriv::FindLastMoveToIndex(fVerbs, fPts.size());
++    SkASSERT(fLastMoveIndex < fPts.size());
++    fType = src.fPathData->fType;
++    fIsA  = src.fPathData->fIsA;
++
++    return *this;
++}
++
+ SkPathBuilder& SkPathBuilder::reset() {
+     fPts.clear();
+     fVerbs.clear();
+@@ -260,6 +279,21 @@ SkPathBuilder& SkPathBuilder::rCubicTo(SkVector p1, SkVector p2, SkVector p3) {
+ 
+ ///////////////////////////////////////////////////////////////////////////////////////////
+ 
++SkPath SkPathBuilder::snapshot(const SkMatrix* mx) const {
++    if (!mx) {
++        mx = &SkMatrix::I();
++    }
++
++    sk_sp<SkPathData> pdata;
++    if (auto raw = SkPathPriv::Raw(*this, SkResolveConvexity::kNo)) {
++        pdata = SkPathData::MakeTransform(*raw, *mx);
++    }
++    if (pdata && fType != SkPathIsAType::kGeneral) {
++        pdata->setupIsA(fType, fIsA.fDirection, fIsA.fStartIndex);
++    }
++    return SkPath::MakeNullCheck(std::move(pdata), fFillType, fIsVolatile);
++}
++
+ SkPath SkPathBuilder::detach(const SkMatrix* mx) {
+     auto path = this->snapshot(mx);
+     this->reset();
+diff --git a/src/core/SkPathPriv.cpp b/src/core/SkPathPriv.cpp
+index 54cb6fad32..29c0d0abbb 100644
+--- a/src/core/SkPathPriv.cpp
++++ b/src/core/SkPathPriv.cpp
+@@ -18,6 +18,20 @@
+ #include <iterator>
+ #include <optional>
+ 
++int SkPathPriv::GenIDChangeListenersCount(const SkPath& path) {
++    return path.fPathData->genIDChangeListenerCount();
++}
++
++void SkPathPriv::AddGenIDChangeListener(const SkPath& path, sk_sp<SkIDChangeListener> listener) {
++    auto pdata = path.fPathData.get();
++    // SkPath's error-singleton is never deleted, so we don't want to add any listeners to it.
++    if (pdata != SkPath::PeekErrorSingleton()) {
++        pdata->addGenIDChangeListener(std::move(listener));
++    }
++}
++
++///////////////////////////////////////////////////////////////////////////
++
+ /*
+  Determines if path is a rect by keeping track of changes in direction
+  and looking for a loop either clockwise or counterclockwise.
+diff --git a/src/core/SkPath_pathdata.cpp b/src/core/SkPath_pathdata.cpp
+deleted file mode 100644
+index 1005dc7624..0000000000
+--- a/src/core/SkPath_pathdata.cpp
++++ /dev/null
+@@ -1,229 +0,0 @@
+-/*
+- * Copyright 2025 Google LLC
+- *
+- * Use of this source code is governed by a BSD-style license that can be
+- * found in the LICENSE file.
+- *
+- * This file contains private enums related to paths. See also skbug.com/40042016
+- */
+-
+-#include "include/core/SkPath.h"
+-#include "include/core/SkPathTypes.h"
+-#include "include/core/SkSpan.h"
+-#include "src/core/SkPathEnums.h"
+-#include "src/core/SkPathPriv.h"
+-
+-#include <algorithm>
+-#include <cmath>
+-#include <cstring>
+-#include <limits.h>
+-#include <utility>
+-
+-/*
+- *  This returns a singleton instance which SkPath uses to signify that its pathdata is in error:
+- *  either because the inputs were invalid (e.g. bad verbs), or its coordintes were non-finite
+- *  (either from the client, or after a makeTransform() call).
+- */
+-SkPathData* SkPath::PeekErrorSingleton() {
+-    static SkPathData* gErrorSingleton = SkPathData::MakeNoCheck({}, {}, {}, {}, {}).release();
+-
+-    // Make sure MakeNoCheck() didn't alias us to the standard Empty instance. We want our
+-    // pointer to be distinct from that one.
+-    SkASSERT(gErrorSingleton != SkPathData::Empty().get());
+-
+-    return gErrorSingleton;
+-}
+-
+-SkPath SkPath::MakeNullCheck(sk_sp<SkPathData> pdata, SkPathFillType ft, bool isVolatile) {
+-    if (!pdata) {
+-        pdata = sk_ref_sp(PeekErrorSingleton());
+-    }
+-    return SkPath(std::move(pdata), ft, isVolatile);
+-}
+-
+-//////////////////////////////////////////////////////////////////////////////////////////////////
+-
+-SkPath::SkPath(sk_sp<SkPathData> pd, SkPathFillType ft, bool isVolatile)
+-    : fPathData(std::move(pd))
+-    , fFillType(ft)
+-    , fIsVolatile(isVolatile)
+-{
+-    SkASSERT(fPathData);
+-}
+-
+-SkPath::SkPath(SkPathFillType ft)
+-    : fPathData(SkPathData::Empty())
+-    , fFillType(ft)
+-    , fIsVolatile(false)
+-{}
+-
+-SkPath::SkPath(const SkPath&) = default;
+-SkPath& SkPath::operator=(const SkPath&) = default;
+-SkPath::SkPath(SkPath&&) = default;
+-SkPath& SkPath::operator=(SkPath&&) = default;
+-
+-void SkPath::setConvexity(SkPathConvexity c) const {
+-    fPathData->setConvexity(c);
+-}
+-
+-SkPathConvexity SkPath::getConvexityOrUnknown() const {
+-    return fPathData->getConvexityOrUnknown();
+-}
+-
+-bool operator==(const SkPath& a, const SkPath& b) {
+-    return &a == &b ||
+-          (a.fFillType == b.fFillType && *a.fPathData == *b.fPathData);
+-}
+-
+-void SkPath::swap(SkPath& that) {
+-    if (this != &that) {
+-        fPathData.swap(that.fPathData);
+-        std::swap(fFillType, that.fFillType);
+-        std::swap(fIsVolatile, that.fIsVolatile);
+-    }
+-}
+-
+-SkPath& SkPath::reset() {
+-    *this = SkPath();
+-    return *this;
+-}
+-
+-const SkRect& SkPath::getBounds() const {
+-    return fPathData->bounds();
+-}
+-
+-uint32_t SkPath::getSegmentMasks() const {
+-    return fPathData->segmentMask();
+-}
+-
+-bool SkPath::isFinite() const {
+-    return fPathData.get() != PeekErrorSingleton();
+-}
+-
+-bool SkPath::isValid() const { return this->isFinite(); }
+-
+-uint32_t SkPath::getGenerationID() const { return fPathData->uniqueID(); }
+-
+-#ifdef SK_DEBUG
+-void SkPath::validate() const {}
+-#endif
+-
+-std::optional<SkPathOvalInfo> SkPath::getOvalInfo() const { return fPathData->asOval(); }
+-std::optional<SkPathRRectInfo> SkPath::getRRectInfo() const { return fPathData->asRRect(); }
+-
+-SkSpan<const SkPoint> SkPath::points() const { return fPathData->points(); }
+-SkSpan<const SkPathVerb> SkPath::verbs() const { return fPathData->verbs(); }
+-SkSpan<const float> SkPath::conicWeights() const { return fPathData->conics(); }
+-
+-//////////////////////////////////////////////////////////////////////////////////////////////////
+-
+-SkPath SkPath::Raw(SkSpan<const SkPoint> pts, SkSpan<const SkPathVerb> vbs,
+-                   SkSpan<const float> ws, SkPathFillType ft, bool isVolatile) {
+-    return MakeNullCheck(SkPathData::Make(pts, vbs, ws), ft, isVolatile);
+-}
+-
+-SkPath SkPath::Rect(const SkRect& r, SkPathFillType ft, SkPathDirection dir, unsigned startIndex) {
+-    startIndex &= 3;    // keep it legal
+-    return MakeNullCheck(SkPathData::Rect(r, dir, startIndex), ft, false);
+-}
+-
+-SkPath SkPath::Oval(const SkRect& r, SkPathDirection dir, unsigned startIndex) {
+-    startIndex &= 3;    // keep it legal
+-    return MakeNullCheck(SkPathData::Oval(r, dir, startIndex), SkPathFillType::kDefault, false);
+-}
+-
+-SkPath SkPath::RRect(const SkRRect& rr, SkPathDirection dir, unsigned startIndex) {
+-    startIndex &= 7;    // keep it legal
+-    // To be backwards compatible with the old impl for building a rrect path, we
+-    // first check to see if the rrect itself can be simplified...
+-    const SkRect& bounds = rr.getBounds();
+-    auto [asType, newIndex] = SkPathPriv::SimplifyRRect(rr, startIndex);
+-    switch (asType) {
+-        case SkPathPriv::RRectAsEnum::kRect:
+-            return SkPath::Rect(bounds, SkPathFillType::kDefault, dir, newIndex);
+-
+-        case SkPathPriv::RRectAsEnum::kOval:
+-            return SkPath::Oval(bounds, dir, newIndex);
+-
+-        case SkPathPriv::RRectAsEnum::kRRect:
+-            // fall through
+-            break;
+-    }
+-    return MakeNullCheck(SkPathData::RRect(rr, dir, newIndex), SkPathFillType::kDefault, false);
+-}
+-
+-SkPath SkPath::Polygon(SkSpan<const SkPoint> pts, bool isClosed,
+-                       SkPathFillType ft, bool isVolatile) {
+-    return MakeNullCheck(SkPathData::Polygon(pts, isClosed), ft, isVolatile);
+-}
+-
+-std::optional<SkPath> SkPath::tryMakeTransform(const SkMatrix& matrix) const {
+-    if (auto pdata = fPathData->makeTransform(matrix)) {
+-        return SkPath(std::move(pdata), fFillType, fIsVolatile);
+-    }
+-    return {};
+-}
+-
+-SkPath SkPath::makeTransform(const SkMatrix& matrix) const {
+-    if (!this->isFinite()) {
+-        return *this;
+-    }
+-    if (auto newpath = this->tryMakeTransform(matrix)) {
+-        return *newpath;
+-    }
+-    return SkPath(sk_ref_sp(PeekErrorSingleton()), fFillType, false);
+-}
+-
+-std::optional<SkPathRaw> SkPath::raw(SkResolveConvexity rc) const {
+-    return fPathData->raw(fFillType, rc);
+-}
+-
+-//////////////////////////////////////////////////////////////////////////////////////////////
+-
+-int SkPathPriv::GenIDChangeListenersCount(const SkPath& path) {
+-    return path.fPathData->genIDChangeListenerCount();
+-}
+-
+-void SkPathPriv::AddGenIDChangeListener(const SkPath& path, sk_sp<SkIDChangeListener> listener) {
+-    auto pdata = path.fPathData.get();
+-    // SkPath's error-singleton is never deleted, so we don't want to add any listeners to it.
+-    if (pdata != SkPath::PeekErrorSingleton()) {
+-        pdata->addGenIDChangeListener(std::move(listener));
+-    }
+-}
+-
+-//////////////////////////////////////////////////////////////////////////////////////////////
+-
+-SkPathBuilder& SkPathBuilder::operator=(const SkPath& src) {
+-    this->reset().setFillType(src.getFillType());
+-    this->setIsVolatile(src.isVolatile());
+-
+-    if (src.isEmpty()) {
+-        return *this;
+-    }
+-
+-    this->addRaw(src.fPathData->raw(src.getFillType(), SkResolveConvexity::kYes));
+-
+-    // These are not part of SkPathRaw, so we set them separately
+-    fLastMoveIndex = SkPathPriv::FindLastMoveToIndex(fVerbs, fPts.size());
+-    SkASSERT(fLastMoveIndex < fPts.size());
+-    fType = src.fPathData->fType;
+-    fIsA  = src.fPathData->fIsA;
+-
+-    return *this;
+-}
+-
+-SkPath SkPathBuilder::snapshot(const SkMatrix* mx) const {
+-    if (!mx) {
+-        mx = &SkMatrix::I();
+-    }
+-
+-    sk_sp<SkPathData> pdata;
+-    if (auto raw = SkPathPriv::Raw(*this, SkResolveConvexity::kNo)) {
+-        pdata = SkPathData::MakeTransform(*raw, *mx);
+-    }
+-    if (pdata && fType != SkPathIsAType::kGeneral) {
+-        pdata->setupIsA(fType, fIsA.fDirection, fIsA.fStartIndex);
+-    }
+-    return SkPath::MakeNullCheck(std::move(pdata), fFillType, fIsVolatile);
+-}
+-- 
+2.53.0
+
