@@ -21,7 +21,7 @@ jobs:
       - run: ./download-and-build-skia.sh
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/m')
         with:
           files: |
             skia-m*-*
