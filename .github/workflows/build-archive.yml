@@ -18,9 +18,10 @@ jobs:
       # Running inside CI requires PAT secrets for git@github.com: URLs.
       - run: perl -pi -e 's(git\@github.com:)(https://github.com/)' skia-build-clone-since-m70.sh
       - run: ./skia-build-clone-since-m70.sh
+      - run: tar -cpvf skia.git.tar skia.git
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/20')
         with:
           files: |
-            skia.git
+            skia.git.tar
