@@ -1,0 +1,67 @@
+diff --git a/src/base/SkBase64.h b/src/base/SkBase64.h
+index e48d861..5675452 100644
+--- a/src/base/SkBase64.h
++++ b/src/base/SkBase64.h
+@@ -9,8 +9,9 @@
+ #define SkBase64_DEFINED
+ 
+ #include <cstddef>
++#include "include/private/base/SkAPI.h"
+ 
+-struct SkBase64 {
++struct SK_API SkBase64 {
+ public:
+     enum Error {
+         kNoError,
+diff --git a/src/base/SkTSearch.cpp b/src/base/SkTSearch.cpp
+index d91772e..9b87063 100644
+--- a/src/base/SkTSearch.cpp
++++ b/src/base/SkTSearch.cpp
+@@ -55,7 +55,7 @@ int SkStrSearch(const char*const* base, int count, const char target[],
+     return hi;
+ }
+ 
+-int SkStrSearch(const char*const* base, int count, const char target[],
++SK_API int SkStrSearch(const char*const* base, int count, const char target[],
+                 size_t elemSize)
+ {
+     return SkStrSearch(base, count, target, strlen(target), elemSize);
+diff --git a/src/codec/SkCodecImageGenerator.h b/src/codec/SkCodecImageGenerator.h
+index c6a3da8..2dc30e3 100644
+--- a/src/codec/SkCodecImageGenerator.h
++++ b/src/codec/SkCodecImageGenerator.h
+@@ -21,7 +21,7 @@
+ enum SkAlphaType : int;
+ struct SkImageInfo;
+ 
+-class SkCodecImageGenerator : public SkImageGenerator {
++class SK_API SkCodecImageGenerator : public SkImageGenerator {
+ public:
+     /*
+      * If this data represents an encoded image that we know how to decode,
+diff --git a/src/utils/SkOSPath.h b/src/utils/SkOSPath.h
+index 783e985..b95cf7c 100644
+--- a/src/utils/SkOSPath.h
++++ b/src/utils/SkOSPath.h
+@@ -13,7 +13,7 @@
+ /**
+  *  Functions for modifying SkStrings which represent paths on the filesystem.
+  */
+-class SkOSPath {
++class SK_API SkOSPath {
+ public:
+ #ifdef _WIN32
+     static constexpr char SEPARATOR = '\\';
+diff --git a/src/xml/SkDOM.h b/src/xml/SkDOM.h
+index a24539c..bb2d461 100644
+--- a/src/xml/SkDOM.h
++++ b/src/xml/SkDOM.h
+@@ -21,7 +21,7 @@ class SkDOMParser;
+ class SkStream;
+ class SkXMLParser;
+ 
+-class SkDOM : public SkNoncopyable {
++class SK_API SkDOM : public SkNoncopyable {
+ public:
+     SkDOM();
+     ~SkDOM();
