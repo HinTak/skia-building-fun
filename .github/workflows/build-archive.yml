@@ -15,6 +15,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - run: dnf install -y git
+      # Running inside CI requires PAT secrets for git@github.com: URLs.
+      - run: perl -pi -e 's(git\@github.com:)(https://github.com/)' skia-build-clone-since-m70.sh
       - run: ./skia-build-clone-since-m70.sh
       - name: Release
         uses: softprops/action-gh-release@v1
