@@ -20,7 +20,7 @@ jobs:
       - run: ./skia-build-clone-since-m70.sh
       - run: tar -cpvf skia.git.tar skia.git
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/20')
         with:
           files: |
