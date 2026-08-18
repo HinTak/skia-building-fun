@@ -13,7 +13,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
       - run: dnf install -y git
       # Running inside CI requires PAT secrets for git@github.com: URLs.
       - run: perl -pi -e 's(git\@github.com:)(https://github.com/)' skia-build-clone-since-m70.sh
